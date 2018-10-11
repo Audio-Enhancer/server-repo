@@ -9,7 +9,8 @@ class TheaudioController {
         Theaudio.create({
             name: req.body.name,
             user: req.decoded.userid,
-            linkmedia: req.body.linkmedia
+            linkmedia: req.body.linkmedia,
+            linkimg: req.body.linkimg
         })
          .then(theaudio =>{
              res.status(201).json({
@@ -37,6 +38,62 @@ class TheaudioController {
               res.status(500).json({
                   msg: 'ERROR Get List Audio ',error
               })
+          })
+    }
+
+    // likes audio
+    static likesAudio(req,res){
+        Theaudio.findOne({
+            _id: req.params.id
+        })
+          .then(audio =>{
+            
+            // check if it's not the user
+            if(audio.user != req.decoded.userid){
+                // let's likes
+                if(audio.likes.indexOf(`${req.decoded.userid}`) === -1){
+                    audio.update({
+                        $push:{
+                            likes: req.decoded.userid
+                        }
+                    })
+                      .then(audiolikes =>{
+                          res.status(201).json({
+                              msg: 'Audio has been liked',
+                              data: audiolikes
+                          })
+                      })
+                      .catch(error =>{
+                          res.status(500).json({
+                              msg: 'ERROR Upvote ',error
+                          })
+                      })
+                }else if(audio.likes.indexOf(`${req.decoded.userid}`) !== -1){
+                    audio.update({
+                        $pull: {
+                            likes: req.decoded.userid
+                        }
+                    })
+                    .then(audiolikes =>{
+                        res.status(201).json({
+                            msg: 'Audio like has been cancelled',
+                            data: audiolikes
+                        })
+                    })
+                    .catch(error =>{
+                        res.status(500).json({
+                            msg: 'ERROR Upvote ',error
+                        })
+                    })
+                }
+            }else{
+                res.status(403).json({ msg: 'You can\'t likes your own audio' })
+            }
+          })
+          .catch(error =>{
+             res.status(500).json({
+                msg: 'ERROR Like Audio ',error
+             })
           })
     }
 }
