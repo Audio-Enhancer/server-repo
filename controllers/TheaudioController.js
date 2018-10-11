@@ -182,6 +182,31 @@ class TheaudioController {
              })
           })
     }
+
+    // search audio by name (keyword)
+    static searchAudio(req,res){
+        Theaudio.find({})
+           .then(allaudio => {
+            //    console.log('Search ----' , req.params.keyword)
+                let sortedArr = []
+                let regex = new RegExp(`${req.params.keyword}`, 'i')
+                
+                allaudio.forEach( detailaudio =>{
+                    if(regex.test(detailaudio.name)){
+                        sortedArr.push(detailaudio)
+                    }
+                })
+                res.status(200).json({
+                    msg: 'List of search audio',
+                    data: sortedArr
+                })
+           })
+           .catch(error  =>{
+              res.status(500).json({
+                  msg: 'ERROR Search Audio ',error
+               })
+           })
+    }
 }
 
 module.exports = TheaudioController
