@@ -9,7 +9,20 @@ const TheaudioSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    linkmedia: [String]
+    linkmedia: String,
+    linkimg: String,
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    unlikes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'     
+    }],
+    shares: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 },{
     timestamps: true
 })

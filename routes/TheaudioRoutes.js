@@ -8,7 +8,7 @@ const media = require('../helpers/media')
 
 router.post('/',isLogin,TheaudioController.createAudio)
       .get('/', TheaudioController.getListOfAudio)
-
+      
 router.post('/uploads/audio',
       media.multer.single('audiofile'),
       media.sendUploadToGCS,
@@ -18,5 +18,11 @@ router.post('/uploads/audio',
             })
       }
 )
+
+router.get('/likes/:id', isLogin, TheaudioController.likesAudio)
+      .get('/unlikes/:id', isLogin, TheaudioController.unlikesAudio)
+      .get('/share/:id', isLogin, TheaudioController.shareAudio)
+      .get('/search/:keyword', TheaudioController.searchAudio)
+      .get('/:id', TheaudioController.getDetailAudio)
 
 module.exports = router
