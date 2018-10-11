@@ -152,6 +152,36 @@ class TheaudioController {
              })
           })
     }
+
+    // share audio
+    static shareAudio(req,res){
+        Theaudio.findOne({
+            _id: req.params.id
+        })
+          .then(audio =>{
+              audio.update({
+                  $push: {
+                      shares: req.decoded.userid
+                  }
+              })
+                .then(shareaudio =>{
+                    res.status(201).json({
+                        msg: 'Audio has been shared',
+                        data: shareaudio
+                    })
+                })
+                .catch(error =>[
+                    res.status(500).json({
+                        msg: 'ERROR Share Audio ',error
+                     })        
+                ])
+          })
+          .catch(error =>{
+            res.status(500).json({
+                msg: 'ERROR Share Audio ',error
+             })
+          })
+    }
 }
 
 module.exports = TheaudioController

@@ -21,5 +21,6 @@ router.post('/uploads/audio',
 
 router.get('/likes/:id', isLogin, TheaudioController.likesAudio)
       .get('/unlikes/:id', isLogin, TheaudioController.unlikesAudio)
+      .get('/share/:id', isLogin, TheaudioController.shareAudio)
 
 module.exports = router
