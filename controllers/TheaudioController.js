@@ -207,6 +207,24 @@ class TheaudioController {
                })
            })
     }
+
+    // get detail of audio
+    static getDetailAudio(req,res){
+        Theaudio.findOne({
+            _id: req.params.id
+        })
+          .then(audiodetail =>{
+            res.status(200).json({
+                msg: `Detail of audio ${audiodetail.name}`,
+                data: audiodetail
+            })  
+          })
+          .catch(error =>{
+            res.status(500).json({
+                msg: 'ERROR Get detail Audio ',error
+             })  
+          })
+    }
 }
 
 module.exports = TheaudioController
