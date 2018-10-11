@@ -96,6 +96,62 @@ class TheaudioController {
              })
           })
     }
+
+    // likes audio
+    static unlikesAudio(req,res){
+        Theaudio.findOne({
+            _id: req.params.id
+        })
+          .then(audio =>{
+            
+            // check if it's not the user
+            if(audio.user != req.decoded.userid){
+                // let's likes
+                if(audio.unlikes.indexOf(`${req.decoded.userid}`) === -1){
+                    audio.update({
+                        $push:{
+                            unlikes: req.decoded.userid
+                        }
+                    })
+                      .then(audiounlikes =>{
+                          res.status(201).json({
+                              msg: 'Audio has been unliked',
+                              data: audiounlikes
+                          })
+                      })
+                      .catch(error =>{
+                          res.status(500).json({
+                              msg: 'ERROR Upvote ',error
+                          })
+                      })
+                }else if(audio.unlikes.indexOf(`${req.decoded.userid}`) !== -1){
+                    audio.update({
+                        $pull: {
+                            unlikes: req.decoded.userid
+                        }
+                    })
+                    .then(audiounlikes =>{
+                        res.status(201).json({
+                            msg: 'Audio unlike has been cancelled',
+                            data: audiounlikes
+                        })
+                    })
+                    .catch(error =>{
+                        res.status(500).json({
+                            msg: 'ERROR Upvote ',error
+                        })
+                    })
+                }
+            }else{
+                res.status(403).json({ msg: 'You can\'t unlikes your own audio' })
+            }
+          })
+          .catch(error =>{
+             res.status(500).json({
+                msg: 'ERROR Unlike Audio ',error
+             })
+          })
+    }
 }
 
 module.exports = TheaudioController
