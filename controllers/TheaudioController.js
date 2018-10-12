@@ -224,6 +224,36 @@ class TheaudioController {
                 msg: 'ERROR Get detail Audio ',error
              })  
           })
+
+
+    }
+
+
+
+    static getUserAudio(req, res) {
+        Theaudio.find({user: req.decoded.userid}).populate('user').then((theaudios) => {
+            res.status(200).json({
+                msg: "user's audios",
+                data: theaudios
+            });
+        }).catch((err) => {
+            res.status(500).json({
+                msg: 'ERROR Get List Audio ',error
+            });
+        });
+    }
+
+    static delete(req, res) {
+        Theaudio.deleteOne({user: req.decoded.userid, _id: req.params.id}).then((result) => {
+            res.status(200).json({
+                msg: 'audio has been deleted'
+            });
+        }).catch((err) => {
+            
+            res.status(500).json({
+                msg: 'unable to delete the audio'
+            });
+        });
     }
 }
 
