@@ -19,4 +19,26 @@ router.post('/uploads/audio',
       }
 )
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/myaudios', isLogin, TheaudioController.getUserAudio)
+router.delete('/:id', isLogin, TheaudioController.delete);
+
 module.exports = router
