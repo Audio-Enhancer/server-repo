@@ -40,4 +40,6 @@ router.get('/likes/:id', isLogin, TheaudioController.likesAudio)
       .get('/:id', TheaudioController.getDetailAudio)
 router.delete('/:id', isLogin, TheaudioController.delete);
 
+console.log()
+
 module.exports = router
