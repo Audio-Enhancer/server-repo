@@ -255,7 +255,7 @@ class TheaudioController {
                 msg: 'audio has been deleted'
             });
         }).catch((err) => {
-            
+            console.log(err);
             res.status(500).json({
                 msg: 'unable to delete the audio'
             });
