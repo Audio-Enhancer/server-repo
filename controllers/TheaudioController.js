@@ -1,6 +1,7 @@
 'use strict'
 
 const Theaudio = require('../models/theaudio')
+const sortedShare = require('../helpers/sortedShare')
 
 class TheaudioController {
 
@@ -228,14 +229,6 @@ class TheaudioController {
 
     }
 
-
-
-
-
-
-
-    
-
     static getUserAudio(req, res) {
         Theaudio.find({user: req.decoded.userid}).populate('user').then((theaudios) => {
             res.status(200).json({
@@ -260,6 +253,32 @@ class TheaudioController {
                 msg: 'unable to delete the audio'
             });
         });
+    }
+
+    // Top Share
+    static getTopShare(req,res){
+        Theaudio.find({})
+          .then(audios => {
+            let sortedArr = []
+               audios.forEach( audiodetail =>{
+                   let obj = {}
+                   obj.name = audiodetail.name
+                   obj.score = audiodetail.shares.length
+                   sortedArr.push(obj)
+                   obj = {}
+               })
+               let cleanArr = sortedShare(sortedArr)
+
+               res.status(200).json({
+                   msg: 'Top Share',
+                   data: cleanArr
+               }) 
+          })
+          .catch(error =>{
+            res.status(500).json({
+               msg: 'ERROR Get List Share Audio ',error
+            }) 
+          })
     }
 }
 

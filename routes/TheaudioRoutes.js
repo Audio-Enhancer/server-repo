@@ -6,6 +6,7 @@ const TheaudioController = require('../controllers/TheaudioController')
 const isLogin = require('../middlewares/isLogin')
 const media = require('../helpers/media')
 
+router.get('/topshare',TheaudioController.getTopShare)
 router.post('/',isLogin,TheaudioController.createAudio)
       .get('/', TheaudioController.getListOfAudio)
       
@@ -25,8 +26,6 @@ router.get('/likes/:id', isLogin, TheaudioController.likesAudio)
       .get('/share/:id', isLogin, TheaudioController.shareAudio)
       .get('/search/:keyword', TheaudioController.searchAudio)
       .get('/:id', TheaudioController.getDetailAudio)
-
-
 router.get('/myaudios', isLogin, TheaudioController.getUserAudio)
 router.delete('/:id', isLogin, TheaudioController.delete);
 
