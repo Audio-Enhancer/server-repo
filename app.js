@@ -8,8 +8,8 @@ const app = express()
 const UserRouter = require('./routes/UserRoutes')
 const TheaudioRouter = require('./routes/TheaudioRoutes')
 
-mongoose.connect('mongodb://localhost:27017/audioenhancerdb',{useNewUrlParser: true});
-
+// mongoose.connect('mongodb://localhost:27017/audioenhancerdb',{useNewUrlParser: true});
+mongoose.connect(process.env.MONGO_USER, {useNewUrlParser: true})
 
 app.use(express.urlencoded({ extended: false}))
 app.use(express.json())
