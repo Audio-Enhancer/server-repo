@@ -19,6 +19,8 @@ router.post('/uploads/audio',
       }
 )
 
+router.get('/myaudios', isLogin, TheaudioController.getUserAudio)
+
 
 router.get('/likes/:id', isLogin, TheaudioController.likesAudio)
       .get('/unlikes/:id', isLogin, TheaudioController.unlikesAudio)
@@ -27,7 +29,7 @@ router.get('/likes/:id', isLogin, TheaudioController.likesAudio)
       .get('/:id', TheaudioController.getDetailAudio)
 
 
-router.get('/myaudios', isLogin, TheaudioController.getUserAudio)
+
 router.delete('/:id', isLogin, TheaudioController.delete);
 
 
